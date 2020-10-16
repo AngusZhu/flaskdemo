@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "app_function": "flaskdemo.app",
+        "aws_region": "ap-northeast-1",
+        "profile_name": "default",
+        "project_name": "flaskdemo",
+        "runtime": "python3.8",
+        "s3_bucket": "angus-serverless"
+    }
+}

@@ -1,0 +1,54 @@
+<!--  author : anguszhu -->
+<!--  date : 2020-10-09 -->
+<html>
+<link rel="stylesheet" href="https://angus-serverless.s3-ap-northeast-1.amazonaws.com/ssi-uploader.css">
+<head><title>相似度对比</title></head>
+<body>
+	<input type="file" multiple id="ssi-upload">
+	<button class="ssi-button success" id="ssi-uploadBtn2">点我！看结果</button>
+	<div>
+			<h2>对比结果</h2>
+			<div id="result"></div>
+	</div>
+</body>
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://angus-serverless.s3-ap-northeast-1.amazonaws.com/ssi-uploader.js"></script>
+<script>
+$('#ssi-upload').ssi_uploader({
+    url: '',
+    allowed: ['jpg', 'png']
+}); 
+$(document).ready(function () {
+	var base64s={}
+	var first = "";
+	var second = "";
+	var i=0;
+	$("#ssi-uploadBtn2").click(function(){
+		$(".ssi-imgToUpload").each(function(){
+			if( i=== 0){
+				first=$(this).attr("src");
+			}else{
+				second=$(this).attr("src");
+			}
+			i++;
+		});
+		data = {"data":JSON.stringify({
+			'first':first,
+			'second':second
+		})}
+		$.ajax({ 
+		        url: '/upload',
+		        data: data,
+		        type: 'post',
+		        dataType:'json',
+		        success: function(data)
+		        {
+		           $("#result").html(data.data.result1+"<br/>"+data.data.result2);
+		        }
+		 });	 
+
+	});
+});
+
+</script>  
+</html>
